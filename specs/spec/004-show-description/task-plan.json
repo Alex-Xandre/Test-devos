@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "status": "needs_input",
+  "goal": "Show a project description in the terminal portfolio, following the AGENTS.md harness. Scope blocked on Q1 (surface) and Q2 (scaffold or target app).",
+  "scope": {
+    "in": [
+      "Render the existing project description field on the surface chosen in Q1, using the harness row and typography rules",
+      "Scaffold the Next.js reference app with declared checks, only if Q2 selects scaffolding",
+      "Publish check recipes (unit, lint, typecheck, build, integration, e2e) before first execution"
+    ],
+    "out": [
+      "New description field or data model change",
+      "Visual redesign or new tokens",
+      "Placeholder screenshots or decorative imagery",
+      "Theme toggle or light mode",
+      "Changes in repositories other than terminal-portfolio"
+    ]
+  },
+  "codebaseEvidence": [
+    { "path": "terminal-portfolio/AGENTS.md", "reason": "Design source of truth: non-negotiable rules, project data shape, row pattern, consistency invariants" },
+    { "path": "terminal-portfolio/AGENTS.md:142-143", "reason": "Project data fields including description" },
+    { "path": "terminal-portfolio/AGENTS.md:202-211", "reason": "Project list row pattern and description typography" },
+    { "path": "terminal-portfolio/AGENTS.md:293-296", "reason": "Projects grid format rule; no placeholder screenshots" },
+    { "path": "terminal-portfolio/AGENTS.md:304-314", "reason": "Consistency invariants: tsc and build must pass" },
+    { "path": "terminal-portfolio/README.md", "reason": "States that the reference implementation is not yet shipped" }
+  ],
+  "decisions": [
+    {
+      "id": "D1",
+      "summary": "Governing design source is AGENTS.md; no rule may be contradicted",
+      "evidence": ["terminal-portfolio/AGENTS.md:1-7", "terminal-portfolio/AGENTS.md:19-49"]
+    },
+    {
+      "id": "D2",
+      "summary": "Reuse the existing description field; do not add a new data field",
+      "evidence": ["terminal-portfolio/AGENTS.md:143", "terminal-portfolio/AGENTS.md:304-306"]
+    },
+    {
+      "id": "D3",
+      "summary": "No visual design pass for the default project-row surface; routing is implement pending Q1",
+      "evidence": ["terminal-portfolio/AGENTS.md:202-211", "terminal-portfolio/AGENTS.md:29"]
+    }
+  ],
+  "openQuestions": [
+    {
+      "id": "Q1",
+      "question": "Which surface shows the description (project rows on home, /projects list, project detail page, shell ls -l output, or several), and does it use the existing description field?",
+      "blocking": true
+    },
+    {
+      "id": "Q2",
+      "question": "There is no application code in terminal-portfolio. Should this feature scaffold the Next.js reference implementation there, or target an existing app in another repository?",
+      "blocking": true
+    },
+    {
+      "id": "Q3",
+      "question": "Does the chosen surface need a visual design pass?",
+      "blocking": false,
+      "deferredTo": "design"
+    },
+    {
+      "id": "Q4",
+      "question": "The hub has no constitution document under .hub/.specify/memory/. Does one exist, or should the constitution check be recorded as absent?",
+      "blocking": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T001",
+      "title": "Decide surface and scaffold scope (human decision, not implementation)",
+      "description": "Owner: the person. Answer Q1, Q2 and Q4 in requirements.md. Blocks every other task. Not an implementation work package.",
+      "paths": ["specs/spec/004-show-description/requirements.md"],
+      "dependsOn": [],
+      "acceptanceCriteria": ["Q1, Q2 and Q4 each have a recorded answer", "Requirements file updated to reflect the answers"]
+    },
+    {
+      "id": "T002",
+      "title": "Scaffold Next.js app with declared check scripts (only if Q2 = scaffold)",
+      "description": "Owner: implementation. Create package.json with lint, typecheck (tsc --noEmit), build and test scripts; Tailwind v4; IBM Plex via next/font; forced dark class on html. Add devos.env.yaml with unit, lint, typecheck, build checks. Expected red: npm run build fails before scaffold exists. Required proof: npx tsc --noEmit and npm run build pass.",
+      "paths": ["terminal-portfolio/package.json", "terminal-portfolio/src/app/layout.tsx", "terminal-portfolio/devos.env.yaml", "terminal-portfolio/tsconfig.json"],
+      "dependsOn": ["T001"],
+      "acceptanceCriteria": ["AC-004.1"]
+    },
+    {
+      "id": "T003",
+      "title": "Publish check recipes before first execution",
+      "description": "Owner: implementation. Run recipe publish for unit, lint, typecheck, build, integration and e2e. Integration and e2e need target http and a browser for e2e. Record any capability refusal as actionable evidence, not a pass.",
+      "paths": ["terminal-portfolio/devos.env.yaml"],
+      "dependsOn": ["T002"],
+      "acceptanceCriteria": ["AC-004.1"]
+    },
+    {
+      "id": "T004",
+      "title": "Write failing unit tests for description rendering",
+      "description": "Owner: implementation (no separate test author supplied). Test first: a project with a description renders it in font-sans with token colors only; a project without a description renders no empty element or dangling separator. Expected red: the description element is absent. Required proof: unit run fails before T005 and passes after.",
+      "paths": ["terminal-portfolio/src/app/(features)/projects/project-data.ts"],
+      "dependsOn": ["T001", "T003"],
+      "acceptanceCriteria": ["AC-002.1", "AC-002.2"]
+    },
+    {
+      "id": "T005",
+      "title": "Render project description on the chosen surface",
+      "description": "Owner: implementation. Implement the surface chosen in Q1 using the existing row pattern (AGENTS.md:202-211). Use font-sans for the description, tokens only, no rounded corners, no hex. Required proof: T004 unit tests pass; integration check shows the text on the rendered page.",
+      "paths": ["terminal-portfolio/src/app/(features)/projects/"],
+      "dependsOn": ["T004"],
+      "acceptanceCriteria": ["AC-002.1", "AC-002.2", "AC-003.1"]
+    },
+    {
+      "id": "T006",
+      "title": "Integration and e2e checks against the rendered app",
+      "description": "Owner: implementation. Write the integration test in the test-first order above (red before T005). Integration uses target http on the preview. E2E traverses the deployed app with a real browser. No third-party stand-ins are needed. Required proof: both checks pass; evidence uploaded with evidence upload and cited by path.",
+      "paths": ["terminal-portfolio/devos.env.yaml"],
+      "dependsOn": ["T005"],
+      "acceptanceCriteria": ["AC-002.1"]
+    }
+  ],
+  "routing": {
+    "designRequired": false,
+    "reason": "The default project-row surface is fully specified by the harness (AGENTS.md:202-211, 29, 51-75). Reconsider if Q1 selects a new layout. Recorded for person's review."
+  },
+  "validation": [
+    {
+      "id": "V1",
+      "description": "Harness consistency: npx tsc --noEmit passes",
+      "command": "npx tsc --noEmit"
+    },
+    {
+      "id": "V2",
+      "description": "Harness consistency: production build passes",
+      "command": "npm run build"
+    },
+    {
+      "id": "V3",
+      "description": "Rule 7: no hex colors or neutral-* classes in components. Pending lint rule (REQ-003)"
+    },
+    {
+      "id": "V4",
+      "description": "Acceptance AC-002.1 and AC-002.2: unit and integration checks pass after T005. Pending recipes (T003)"
+    }
+  ],
+  "nextAction": "Human decision required: answer Q1, Q2 and Q4 in requirements.md, then rerun the plan stage. No implementation task may start before T001."
+}
