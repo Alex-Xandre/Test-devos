@@ -137,7 +137,10 @@ interactive shell is out of scope (requirements, task-plan `scope.out`) — Q3 b
 | `round-1-home-desktop.png` / `-mobile.png` | Minimal home |
 | `round-1-not-found-desktop.png` / `-annotated.png` / `-mobile.png` | 404 |
 
-Platform-stored per-page screenshots are also registered by `design-canvas publish` (round 1).
+`design-canvas publish` registered round 1 (5 pages, `design/mocks/round-0001.json`) but its own
+per-page screenshot step failed in this pod (the bundled Playwright has no matching browser build), so
+the round is stored "without a screenshot". The uploaded captures above are the round's evidence;
+they were taken from the same committed pages with Playwright 1.56.1 / Chromium headless shell 141.
 
 ## 7. Criterion mapping
 
@@ -170,4 +173,6 @@ Anything else in this round is implementable as drawn; the tables in §3 are the
 
 - **Round 1** (loop 1): canvas created — five pages, two directions, evidence captured at 1280×800
   and 375×812; first mobile capture showed an orphaned `· {year}` in the row header, fixed before
-  publishing (see §3.1 row 4). Published with `design-canvas publish`; held for the person.
+  publishing (see §3.1 row 4). Published with `design-canvas publish` (commits `397a1d1`, `e7df4ba`;
+  the tool needed `DEVOS_WORKSPACE=/workspace/.hub` because `/workspace` is a folder of repositories,
+  not a repository). Held for the person with `needs_human`.
