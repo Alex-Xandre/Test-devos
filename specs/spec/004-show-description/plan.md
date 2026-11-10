@@ -82,6 +82,7 @@ No runner, command, cwd or preview target can be concretely planned yet. Each ch
 
 1. **Q1**: Which surface shows the description (project rows on home, `/projects` list, detail page, shell `ls -l`, or several), and does it use the existing `description` field?
 2. **Q2**: Should this feature scaffold the Next.js reference implementation in `terminal-portfolio`, or target an existing app in another repository?
+3. **Q4**: Does a factory constitution exist (none is present at `.hub/.specify/memory/constitution.md`), or should the constitution check be recorded as absent?
 
 ## Design routing
 
