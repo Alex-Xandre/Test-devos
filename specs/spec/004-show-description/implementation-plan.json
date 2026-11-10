@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "branch": "spec/004-show-description",
+  "attemptId": "ss_spec_004-show-description_1794272833602_4",
+  "loop": 1,
+  "source": "task-plan.json (sha256 b2674ad7…); requirements.md (ee5d64b1…); plan.md (3a41e262…); design.md round 1 (approved; direction A, slug shown, no shell button, no footer, appbar h-14 / scroll mt-14)",
+  "recipe": {
+    "note": "No devos.env.yaml exists on the branch. The scaffold package authors it; its shape was validated against the backend with `recipe --validate` before planning (component `web` with command/port/health; checks unit, lint, typecheck, build (target none), integration, e2e (target http, component web, env BASE_URL: ${preview:url}, junit-xml reports under reports/)). The orchestrator runs `recipe publish` after applying the scaffold result and before any check child starts."
+  },
+  "packages": [
+    {
+      "key": "scaffold",
+      "repo": "terminal-portfolio",
+      "tasks": ["T001", "T002"],
+      "acceptance": ["AC-001.1", "AC-001.3", "AC-004.1", "AC-005.1"],
+      "dependencies": [],
+      "paths": [
+        "package.json", "package-lock.json", ".gitignore", ".npmrc",
+        "next.config.ts", "tsconfig.json", "next-env.d.ts", "eslint.config.mjs", "postcss.config.mjs",
+        "vitest.config.ts", "playwright.config.ts", "devos.env.yaml",
+        "public/",
+        "src/app/globals.css", "src/app/layout.tsx", "src/app/page.tsx", "src/app/not-found.tsx", "src/app/fonts/",
+        "src/lib/",
+        "src/components/container.tsx", "src/components/appbar.tsx", "src/components/command-header.tsx",
+        "tests/setup.ts", "tests/unit/harness-rules.test.ts", "tests/unit/layout.test.tsx"
+      ],
+      "checks": ["unit", "lint", "typecheck", "build"],
+      "instructions": "specs/spec/004-show-description/packages/scaffold.md"
+    },
+    {
+      "key": "testimonials",
+      "repo": "terminal-portfolio",
+      "tasks": ["T003", "T004", "T005"],
+      "acceptance": ["AC-001.2", "AC-001.3", "AC-002.1", "AC-002.2", "AC-003.1", "AC-003.2", "AC-003.3", "AC-004.1"],
+      "dependencies": ["scaffold"],
+      "paths": [
+        "src/app/(features)/",
+        "src/components/testimonial-row.tsx",
+        "tests/unit/testimonials-data.test.ts", "tests/unit/testimonials-page.test.tsx",
+        "tests/integration/"
+      ],
+      "checks": ["unit", "lint", "typecheck", "build"],
+      "instructions": "specs/spec/004-show-description/packages/testimonials.md"
+    },
+    {
+      "key": "e2e",
+      "repo": "terminal-portfolio",
+      "tasks": ["T006", "T007"],
+      "acceptance": ["AC-003.4", "AC-004.2", "AC-004.3", "AC-001.1", "AC-004.1"],
+      "dependencies": ["testimonials"],
+      "paths": ["tests/e2e/"],
+      "checks": ["unit", "lint", "typecheck", "build"],
+      "instructions": "specs/spec/004-show-description/packages/e2e.md",
+      "note": "playwright.config.ts belongs to scaffold (it declares both the integration and e2e projects); the e2e spec sets viewport and reducedMotion per test so no config change is needed. Fixes the consistency pass (T007) finds in files owned by scaffold/testimonials are flagged in the result and go to follow-up workers on the candidate; the integration and e2e check children prove AC-001.2/AC-003.1 and AC-003.4/AC-004.2/AC-004.3 on the joined candidate."
+    }
+  ],
+  "candidateChecks": ["integration", "e2e"],
+  "humanTasks": []
+}
