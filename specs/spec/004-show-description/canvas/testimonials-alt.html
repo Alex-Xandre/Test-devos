@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0b07">
+<title>testimonials — testuser@sh (direction B, alternative: literal file output)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="scanlines" aria-hidden="true"></div>
+<main class="shell">
+  <header class="appbar">
+    <div class="appbar-inner">
+      <a class="handle" href="home.html" aria-label="home"><span class="dot" aria-hidden="true"></span><span class="txt">testuser<span class="dim">@sh:~</span></span></a>
+      <nav class="nav" aria-label="primary">
+        <a href="home.html" aria-label="home">~</a>
+        <a href="index.html" aria-current="page">testimonials</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="scroll">
+    <section class="container">
+      <p class="cmd">testuser@sh:~ $ <span class="c">cat testimonials/*.md</span></p>
+      <p class="sub">notes from people i've shipped with — quoted as sent.</p>
+
+      <div class="doc">
+        <article>
+          <p class="fh"><span class="hash">#</span> testimonials/mira-okafor.md</p>
+          <blockquote class="bq">Took the billing reconciler nobody wanted to touch, fixed it, and left it with tests and a runbook. On-call pages for that service went to near zero the following quarter.</blockquote>
+          <p class="attr">— <span class="name">Mira Okafor</span>, engineering manager @ Lattice Grid · 2025</p>
+          <a class="ghost" href="#" target="_blank" rel="noreferrer">./open --link</a>
+        </article>
+        <article>
+          <p class="fh"><span class="hash">#</span> testimonials/jonas-lindqvist.md</p>
+          <blockquote class="bq">The most useful code reviews I've had. Blunt, specific, and usually with a diff attached instead of a paragraph.</blockquote>
+          <p class="attr">— <span class="name">Jonas Lindqvist</span>, staff engineer · 2024</p>
+        </article>
+        <article>
+          <p class="fh"><span class="hash">#</span> testimonials/priya-raman.md</p>
+          <blockquote class="bq">Shipped our ingest pipeline in three weeks, then told us which half of it we didn't need. We deleted that half. It's still running.</blockquote>
+          <p class="attr">— <span class="name">Priya Raman</span>, founder @ Kestrel Labs</p>
+          <a class="ghost" href="#" target="_blank" rel="noreferrer">./open --link</a>
+        </article>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+window.ANNOTATIONS = [
+  [".doc article:first-child .fh", "file name as a # comment line (stacks' note idiom, AGENTS.md:233-234)"],
+  [".doc article:first-child .bq", "quote as a markdown blockquote: 2px accent-muted left rule, sans body (AGENTS.md:260-264)"],
+  [".doc article:first-child .attr", "attribution below the quote, mono text-secondary, name in text-primary"],
+  [".doc article:nth-child(2)", "no dashed borders: files are separated by whitespace only"]
+];
+</script>
+<script src="annotate.js"></script>
+</body>
+</html>

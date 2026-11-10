@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0b07">
+<title>testimonials — testuser@sh (direction A, recommended)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="scanlines" aria-hidden="true"></div>
+<main class="shell">
+  <header class="appbar">
+    <div class="appbar-inner">
+      <a class="handle" href="home.html" aria-label="home"><span class="dot" aria-hidden="true"></span><span class="txt">testuser<span class="dim">@sh:~</span></span></a>
+      <nav class="nav" aria-label="primary">
+        <a href="home.html" aria-label="home">~</a>
+        <a href="index.html" aria-current="page">testimonials</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="scroll">
+    <section class="container">
+      <p class="cmd">testuser@sh:~ $ <span class="c">cat testimonials/*.md</span></p>
+      <p class="sub">notes from people i've shipped with — quoted as sent.</p>
+
+      <ul class="files">
+        <li>
+          <p class="file-h">
+            <span class="slug">mira-okafor.md</span>
+            <span class="who"><span class="name">Mira Okafor</span><span class="meta">, engineering manager @ Lattice Grid</span><span class="meta year"> · 2025</span></span>
+          </p>
+          <p class="quote">Took the billing reconciler nobody wanted to touch, fixed it, and left it with tests and a runbook. On-call pages for that service went to near zero the following quarter.</p>
+          <a class="ghost" href="#" target="_blank" rel="noreferrer">./open --link</a>
+        </li>
+        <li>
+          <p class="file-h">
+            <span class="slug">jonas-lindqvist.md</span>
+            <span class="who"><span class="name">Jonas Lindqvist</span><span class="meta">, staff engineer</span><span class="meta year"> · 2024</span></span>
+          </p>
+          <p class="quote">The most useful code reviews I've had. Blunt, specific, and usually with a diff attached instead of a paragraph.</p>
+        </li>
+        <li>
+          <p class="file-h">
+            <span class="slug">priya-raman.md</span>
+            <span class="who"><span class="name">Priya Raman</span><span class="meta">, founder @ Kestrel Labs</span></span>
+          </p>
+          <p class="quote">Shipped our ingest pipeline in three weeks, then told us which half of it we didn't need. We deleted that half. It's still running.</p>
+          <a class="ghost" href="#" target="_blank" rel="noreferrer">./open --link</a>
+        </li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<script>
+window.ANNOTATIONS = [
+  [".appbar .handle", "appbar: positive status dot + SHELL handle; nav lowercase, active item in accent (aria-current)"],
+  [".cmd", "command header: {SHELL} $ in accent-muted, command in accent (AGENTS.md:179-184)"],
+  [".sub", "subtitle: 12px text-secondary, dry first-person copy"],
+  [".files li:first-child .file-h", "row header, mono 13px: {slug}.md accent-muted · name 500 · role/company/year text-secondary"],
+  [".files li:first-child .quote", "quote: IBM Plex Sans 14px/1.65, max 65ch — sans is for reading (rule 3)"],
+  [".files li:first-child .ghost", "optional link: ghost button text → accent on hover, label ./open --link"],
+  [".files li:nth-child(2) .file-h", "no company: no dangling @ (AC-003.2)"],
+  [".files li:nth-child(3) .file-h", "no year: no trailing · (AC-003.2)"]
+];
+</script>
+<script src="annotate.js"></script>
+</body>
+</html>

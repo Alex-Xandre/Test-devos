@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0b07">
+<title>testuser@sh:~</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="scanlines" aria-hidden="true"></div>
+<main class="shell">
+  <header class="appbar">
+    <div class="appbar-inner">
+      <a class="handle" href="home.html" aria-label="home"><span class="dot" aria-hidden="true"></span><span class="txt">testuser<span class="dim">@sh:~</span></span></a>
+      <nav class="nav" aria-label="primary">
+        <a href="home.html" aria-label="home" aria-current="page">~</a>
+        <a href="index.html">testimonials</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="scroll">
+    <section class="container">
+      <p class="cmd">testuser@sh:~ $ <span class="c">whoami</span></p>
+      <p class="sub">test user · backend engineer · the rest of this directory is still being written.</p>
+
+      <a class="cd" href="index.html">cd /testimonials →</a>
+    </section>
+  </div>
+</main>
+
+<script>
+window.ANNOTATIONS = [
+  [".cmd", "minimal home: plain whoami (the typed whoami --verbose hero is a later feature)"],
+  [".sub", "one-line placeholder identity from prompt:21-23; replaced by the person later (A1)"],
+  [".cd", "navigation-away link is always cd (AGENTS.md:192-194): accent, accent-hover on hover"]
+];
+</script>
+<script src="annotate.js"></script>
+</body>
+</html>

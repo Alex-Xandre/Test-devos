@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0b07">
+<title>testimonials — empty state</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="scanlines" aria-hidden="true"></div>
+<main class="shell">
+  <header class="appbar">
+    <div class="appbar-inner">
+      <a class="handle" href="home.html" aria-label="home"><span class="dot" aria-hidden="true"></span><span class="txt">testuser<span class="dim">@sh:~</span></span></a>
+      <nav class="nav" aria-label="primary">
+        <a href="home.html" aria-label="home">~</a>
+        <a href="index.html" aria-current="page">testimonials</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="scroll">
+    <section class="container">
+      <p class="cmd">testuser@sh:~ $ <span class="c">cat testimonials/*.md</span></p>
+      <p class="sub">notes from people i've shipped with — quoted as sent.</p>
+
+      <p class="empty">cat: testimonials/*.md: No such file or directory</p>
+    </section>
+  </div>
+</main>
+
+<script>
+window.ANNOTATIONS = [
+  [".empty", "empty data: the shell's own error line, text-secondary, no rows (AC-003.3, AGENTS.md:199-200)"]
+];
+</script>
+<script src="annotate.js"></script>
+</body>
+</html>

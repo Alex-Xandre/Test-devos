@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0b07">
+<title>404 — testuser@sh</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="scanlines" aria-hidden="true"></div>
+<main class="shell">
+  <header class="appbar">
+    <div class="appbar-inner">
+      <a class="handle" href="home.html" aria-label="home"><span class="dot" aria-hidden="true"></span><span class="txt">testuser<span class="dim">@sh:~</span></span></a>
+      <nav class="nav" aria-label="primary">
+        <a href="home.html" aria-label="home">~</a>
+        <a href="index.html">testimonials</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="scroll">
+    <section class="container">
+      <p class="cmd">testuser@sh:~ $ <span class="c">cd /unknown</span></p>
+      <p class="out">bash: cd: /unknown: No such file or directory</p>
+
+      <ul class="tree" aria-label="routes">
+        <li><a href="home.html">~/</a></li>
+        <li><span class="br">└── </span><a href="index.html">testimonials/</a></li>
+      </ul>
+
+      <a class="cd" href="home.html">cd ~</a>
+
+      <p class="exit">process exited 127</p>
+    </section>
+  </div>
+</main>
+
+<script>
+window.ANNOTATIONS = [
+  [".cmd", "echoes the attempted path as a command (AGENTS.md:299)"],
+  [".out", "bash's own error line, text-primary"],
+  [".tree", "tree of real routes from SIDEBAR_MENU; branch glyph in accent-muted"],
+  [".cd", "cd ~ in accent; the harness's 'open a shell' button is omitted — no shell in this scope"],
+  [".exit", "process exited 127, text-secondary"]
+];
+</script>
+<script src="annotate.js"></script>
+</body>
+</html>
