@@ -1,142 +1,113 @@
 {
   "schemaVersion": 1,
-  "status": "needs_input",
-  "goal": "Show a project description in the terminal portfolio, following the AGENTS.md harness. Scope blocked on Q1 (surface) and Q2 (scaffold or target app).",
+  "status": "ready",
+  "goal": "Run the AGENTS.md harness to scaffold a minimal Next.js terminal portfolio in terminal-portfolio and add a /testimonials page framed as `cat testimonials/*.md`, with declared and published checks.",
   "scope": {
     "in": [
-      "Render the existing project description field on the surface chosen in Q1, using the harness row and typography rules",
-      "Scaffold the Next.js reference app with declared checks, only if Q2 selects scaffolding",
-      "Publish check recipes (unit, lint, typecheck, build, integration, e2e) before first execution"
+      "Minimal scaffold per harness recipe steps 2-4: tokens, layout, site.ts, Appbar, Container, minimal home, 404",
+      "Testimonials data file, row component and /testimonials route",
+      "Nav item and home link to /testimonials",
+      "Vitest, Playwright and ESLint tooling; devos.env.yaml checks published with recipe publish",
+      "Unit, integration and e2e tests with junit reports and screenshot evidence"
     ],
     "out": [
-      "New description field or data model change",
-      "Visual redesign or new tokens",
-      "Placeholder screenshots or decorative imagery",
-      "Theme toggle or light mode",
-      "Changes in repositories other than terminal-portfolio"
+      "Hero typing animation, projects, blog, stacks, experience, trading, interactive shell, ticker, footer cat",
+      "Live GitHub stats",
+      "Real identity content (placeholders until the person supplies it)",
+      "Theme toggle, new tokens, decorative images",
+      "Changes outside terminal-portfolio"
     ]
   },
   "codebaseEvidence": [
-    { "path": "terminal-portfolio/AGENTS.md", "reason": "Design source of truth: non-negotiable rules, project data shape, row pattern, consistency invariants" },
-    { "path": "terminal-portfolio/AGENTS.md:142-143", "reason": "Project data fields including description" },
-    { "path": "terminal-portfolio/AGENTS.md:202-211", "reason": "Project list row pattern and description typography" },
-    { "path": "terminal-portfolio/AGENTS.md:293-296", "reason": "Projects grid format rule; no placeholder screenshots" },
-    { "path": "terminal-portfolio/AGENTS.md:304-314", "reason": "Consistency invariants: tsc and build must pass" },
-    { "path": "terminal-portfolio/README.md", "reason": "States that the reference implementation is not yet shipped" }
+    { "path": "terminal-portfolio/AGENTS.md:19-49", "reason": "Non-negotiable rules the page and scaffold must satisfy" },
+    { "path": "terminal-portfolio/AGENTS.md:51-81", "reason": "Token block and Tailwind theme names for globals.css" },
+    { "path": "terminal-portfolio/AGENTS.md:158-174", "reason": "Layout skeleton and Container class strings" },
+    { "path": "terminal-portfolio/AGENTS.md:178-200", "reason": "Command header markup, cd links, empty-state idiom" },
+    { "path": "terminal-portfolio/AGENTS.md:202-211", "reason": "List row pattern; dashed borders for text lists; no dangling separators" },
+    { "path": "terminal-portfolio/AGENTS.md:298-302", "reason": "404 page pattern" },
+    { "path": "terminal-portfolio/AGENTS.md:304-314", "reason": "Consistency invariants: tsc, build, no neutral-" },
+    { "path": "terminal-portfolio/AGENTS.md:318-328", "reason": "Generation recipe order for the scaffold" },
+    { "path": "terminal-portfolio/README.md:21-24", "reason": "No reference implementation exists yet; scaffold is required" },
+    { "path": "terminal-portfolio/prompt:21-23", "reason": "Placeholder identity values" }
   ],
   "decisions": [
-    {
-      "id": "D1",
-      "summary": "Governing design source is AGENTS.md; no rule may be contradicted",
-      "evidence": ["terminal-portfolio/AGENTS.md:1-7", "terminal-portfolio/AGENTS.md:19-49"]
-    },
-    {
-      "id": "D2",
-      "summary": "Reuse the existing description field; do not add a new data field",
-      "evidence": ["terminal-portfolio/AGENTS.md:143", "terminal-portfolio/AGENTS.md:304-306"]
-    },
-    {
-      "id": "D3",
-      "summary": "No visual design pass for the default project-row surface; routing is implement pending Q1",
-      "evidence": ["terminal-portfolio/AGENTS.md:202-211", "terminal-portfolio/AGENTS.md:29"]
-    }
+    { "id": "D1", "summary": "Feature is a new /testimonials page; app is scaffolded in terminal-portfolio (person's message resolves Q1/Q2)", "evidence": ["terminal-portfolio/README.md:21-24"] },
+    { "id": "D2", "summary": "Shell idiom `cat testimonials/*.md`, dashed-border rows, mono header + sans quote", "evidence": ["terminal-portfolio/AGENTS.md:178-190", "terminal-portfolio/AGENTS.md:202-211", "terminal-portfolio/AGENTS.md:27-30"] },
+    { "id": "D3", "summary": "Minimal scaffold only (recipe steps 2-4 + 404); other pages are future features", "evidence": ["terminal-portfolio/AGENTS.md:318-328"] },
+    { "id": "D4", "summary": "Vitest + RTL for unit, Playwright for integration (request API) and e2e (chromium), ESLint junit formatter; harness static rules enforced by a scanning unit test", "evidence": ["terminal-portfolio/AGENTS.md:304-314"] },
+    { "id": "D5", "summary": "Design route = implement; harness fully specifies every visual element used", "evidence": ["terminal-portfolio/AGENTS.md:176-211"] },
+    { "id": "D6", "summary": "Constitution absent in hub; recorded N/A, harness governs", "evidence": ["terminal-portfolio/AGENTS.md:1-7"] }
   ],
-  "openQuestions": [
-    {
-      "id": "Q1",
-      "question": "Which surface shows the description (project rows on home, /projects list, project detail page, shell ls -l output, or several), and does it use the existing description field?",
-      "blocking": true
-    },
-    {
-      "id": "Q2",
-      "question": "There is no application code in terminal-portfolio. Should this feature scaffold the Next.js reference implementation there, or target an existing app in another repository?",
-      "blocking": true
-    },
-    {
-      "id": "Q3",
-      "question": "Does the chosen surface need a visual design pass?",
-      "blocking": false,
-      "deferredTo": "design"
-    },
-    {
-      "id": "Q4",
-      "question": "The hub has no constitution document under .hub/.specify/memory/. Does one exist, or should the constitution check be recorded as absent?",
-      "blocking": true
-    }
-  ],
+  "openQuestions": [],
   "tasks": [
     {
       "id": "T001",
-      "title": "Decide surface and scaffold scope (human decision, not implementation)",
-      "description": "Owner: the person. Answer Q1, Q2 and Q4 in requirements.md. Blocks every other task. Not an implementation work package.",
-      "paths": ["specs/spec/004-show-description/requirements.md"],
+      "title": "Scaffold minimal Next.js app per harness recipe steps 2-4",
+      "description": "Owner: implementation. REQ-001, REQ-004. Tests first: write tests/unit/harness-rules.test.ts (scans src/ for hex outside globals.css, neutral-, rounded-* outside dot classes) and tests/unit/layout.test.tsx (html has class dark, scanlines aria-hidden). Expected red: vitest cannot resolve src modules / no package.json. Then create package.json (pinned next, react, tailwindcss v4, motion, vitest, @testing-library/react, jsdom, playwright, eslint-config-next, eslint-formatter-junit; scripts dev/build/start/lint/typecheck/test/test:integration/test:e2e), next.config.ts, tsconfig.json, eslint.config.mjs, postcss, vitest.config.ts, playwright.config.ts, src/app/globals.css (amber tokens + utilities + reduced-motion block), src/app/layout.tsx, src/lib/site.ts (placeholder identity from prompt:21-23), src/components/container.tsx, appbar.tsx (SIDEBAR_MENU with ~ and testimonials, aria-current), command-header.tsx, src/app/page.tsx (header + `cd /testimonials →`), src/app/not-found.tsx. Proof: unit tests green; `npx tsc --noEmit` and `npm run build` exit 0.",
+      "paths": ["terminal-portfolio/package.json", "terminal-portfolio/src/app/layout.tsx", "terminal-portfolio/src/app/globals.css", "terminal-portfolio/src/lib/site.ts", "terminal-portfolio/src/components/appbar.tsx", "terminal-portfolio/src/app/not-found.tsx", "terminal-portfolio/tests/unit/harness-rules.test.ts"],
       "dependsOn": [],
-      "acceptanceCriteria": ["Q1, Q2 and Q4 each have a recorded answer", "Requirements file updated to reflect the answers"]
+      "acceptanceCriteria": ["AC-001.1", "AC-001.3", "AC-004.1"]
     },
     {
       "id": "T002",
-      "title": "Scaffold Next.js app with declared check scripts (only if Q2 = scaffold)",
-      "description": "Owner: implementation. Create package.json with lint, typecheck (tsc --noEmit), build and test scripts; Tailwind v4; IBM Plex via next/font; forced dark class on html. Add devos.env.yaml with unit, lint, typecheck, build checks. Expected red: npm run build fails before scaffold exists. Required proof: npx tsc --noEmit and npm run build pass.",
-      "paths": ["terminal-portfolio/package.json", "terminal-portfolio/src/app/layout.tsx", "terminal-portfolio/devos.env.yaml", "terminal-portfolio/tsconfig.json"],
+      "title": "Declare and publish check recipes and preview component",
+      "description": "Owner: implementation. REQ-005. Write terminal-portfolio/devos.env.yaml: component web (build `npm ci && npm run build`, run `npm run start -- -p 3000`, health GET /), checks unit/lint/typecheck/build (target none) and integration/e2e (target http, component web, e2e needs chromium; setup `npx playwright install chromium`), junit-xml report paths under reports/, preparation none: true (static data, no services). Run `recipe publish` before any check executes; keep any capability refusal as evidence. Proof: `devos gates` no longer lists the checks as unavailable.",
+      "paths": ["terminal-portfolio/devos.env.yaml"],
       "dependsOn": ["T001"],
-      "acceptanceCriteria": ["AC-004.1"]
+      "acceptanceCriteria": ["AC-005.1"]
     },
     {
       "id": "T003",
-      "title": "Publish check recipes before first execution",
-      "description": "Owner: implementation. Run recipe publish for unit, lint, typecheck, build, integration and e2e. Integration and e2e need target http and a browser for e2e. Record any capability refusal as actionable evidence, not a pass.",
-      "paths": ["terminal-portfolio/devos.env.yaml"],
+      "title": "Write failing unit tests for testimonials data and rows",
+      "description": "Owner: implementation. REQ-002, REQ-003. Write tests/unit/testimonials-data.test.ts (unique non-empty slugs, non-empty name/quote) and tests/unit/testimonials-page.test.tsx (3 fixtures → 3 li with name+quote, quote has font-sans; fixture without company/year → no ` @ ` and no trailing `·`; [] → `cat: testimonials/*.md: No such file or directory` and 0 li). Expected red: module `testimonials-data` / `testimonial-row` not found. Proof: red run recorded in reports/unit.xml.",
+      "paths": ["terminal-portfolio/tests/unit/testimonials-data.test.ts", "terminal-portfolio/tests/unit/testimonials-page.test.tsx"],
       "dependsOn": ["T002"],
-      "acceptanceCriteria": ["AC-004.1"]
+      "acceptanceCriteria": ["AC-002.1", "AC-003.1", "AC-003.2", "AC-003.3"]
     },
     {
       "id": "T004",
-      "title": "Write failing unit tests for description rendering",
-      "description": "Owner: implementation (no separate test author supplied). Test first: a project with a description renders it in font-sans with token colors only; a project without a description renders no empty element or dangling separator. Expected red: the description element is absent. Required proof: unit run fails before T005 and passes after.",
-      "paths": ["terminal-portfolio/src/app/(features)/projects/project-data.ts"],
-      "dependsOn": ["T001", "T003"],
-      "acceptanceCriteria": ["AC-002.1", "AC-002.2"]
+      "title": "Write failing integration tests (HTTP, real app)",
+      "description": "Owner: implementation. REQ-001, REQ-003. Playwright request-API specs in tests/integration against BASE_URL from `preview url`: GET / contains SHELL and `cd /testimonials →`; GET /unknown contains 404 pattern; html has lang/dark/theme-color; GET /testimonials 200 and contains every name and quote from the real TESTIMONIALS import. No mocks of the app. Expected red: /testimonials returns 404 before T005. Proof: red run in reports/integration.xml. Test comment states target http on component web.",
+      "paths": ["terminal-portfolio/tests/integration/pages.spec.ts", "terminal-portfolio/tests/integration/testimonials.spec.ts"],
+      "dependsOn": ["T002"],
+      "acceptanceCriteria": ["AC-001.2", "AC-001.3", "AC-003.1"]
     },
     {
       "id": "T005",
-      "title": "Render project description on the chosen surface",
-      "description": "Owner: implementation. Implement the surface chosen in Q1 using the existing row pattern (AGENTS.md:202-211). Use font-sans for the description, tokens only, no rounded corners, no hex. Required proof: T004 unit tests pass; integration check shows the text on the rendered page.",
-      "paths": ["terminal-portfolio/src/app/(features)/projects/"],
-      "dependsOn": ["T004"],
-      "acceptanceCriteria": ["AC-002.1", "AC-002.2", "AC-003.1"]
+      "title": "Implement testimonials data, row and page",
+      "description": "Owner: implementation. REQ-002, REQ-003. Create src/app/(features)/testimonials/testimonials-data.ts (Testimonial type, 3 placeholder entries with a comment saying replace), src/components/testimonial-row.tsx, src/app/(features)/testimonials/page.tsx (CommandHeader `cat testimonials/*.md`, subtitle, dashed ul, empty-state line). Lowercase chrome, tokens only, no rounded-*. Proof: T003 and T004 go green; typecheck and build exit 0.",
+      "paths": ["terminal-portfolio/src/app/(features)/testimonials/testimonials-data.ts", "terminal-portfolio/src/app/(features)/testimonials/page.tsx", "terminal-portfolio/src/components/testimonial-row.tsx"],
+      "dependsOn": ["T003", "T004"],
+      "acceptanceCriteria": ["AC-002.1", "AC-002.2", "AC-003.1", "AC-003.2", "AC-003.3", "AC-004.1"]
     },
     {
       "id": "T006",
-      "title": "Integration and e2e checks against the rendered app",
-      "description": "Owner: implementation. Write the integration test in the test-first order above (red before T005). Integration uses target http on the preview. E2E traverses the deployed app with a real browser. No third-party stand-ins are needed. Required proof: both checks pass; evidence uploaded with evidence upload and cited by path.",
-      "paths": ["terminal-portfolio/devos.env.yaml"],
+      "title": "E2E: navigation, accessibility, reduced motion, screenshots",
+      "description": "Owner: implementation. REQ-003, REQ-004. tests/e2e/testimonials.spec.ts (chromium, deployed preview, no stand-ins): from / click nav `testimonials` → /testimonials, header `$ cat testimonials/*.md`, link aria-current=page; Tab to nav link → outline color equals resolved --accent; `.scanlines[aria-hidden=true]`; reducedMotion reduce → same content, getAnimations() empty; screenshots at 375x812 and 1280x800 saved to specs/spec/004-show-description/evidence/ and uploaded via `evidence upload`, paths cited. Expected red before T005: navigation lands on 404. Proof: green reports/e2e.xml plus uploaded screenshot paths.",
+      "paths": ["terminal-portfolio/tests/e2e/testimonials.spec.ts", "terminal-portfolio/playwright.config.ts"],
       "dependsOn": ["T005"],
-      "acceptanceCriteria": ["AC-002.1"]
+      "acceptanceCriteria": ["AC-003.4", "AC-004.2", "AC-004.3"]
+    },
+    {
+      "id": "T007",
+      "title": "Harness consistency pass",
+      "description": "Owner: implementation. REQ-004. Run `git grep -n neutral-` (expect none), `npx tsc --noEmit`, `npm run build`, full unit/lint/integration/e2e; confirm tsconfig.tsbuildinfo and reports/ are gitignored; confirm naming (`Next.js`), lowercase chrome. Proof: all check reports green and attached to the run.",
+      "paths": ["terminal-portfolio/.gitignore", "terminal-portfolio/src"],
+      "dependsOn": ["T006"],
+      "acceptanceCriteria": ["AC-001.1", "AC-004.1"]
     }
   ],
   "routing": {
     "designRequired": false,
-    "reason": "The default project-row surface is fully specified by the harness (AGENTS.md:202-211, 29, 51-75). Reconsider if Q1 selects a new layout. Recorded for person's review."
+    "reason": "The harness specifies tokens, command headers, list rows, typography, buttons, nav and 404 exactly; the testimonials page composes those patterns with no new visual element. Recorded for the person's review."
   },
   "validation": [
-    {
-      "id": "V1",
-      "description": "Harness consistency: npx tsc --noEmit passes",
-      "command": "npx tsc --noEmit"
-    },
-    {
-      "id": "V2",
-      "description": "Harness consistency: production build passes",
-      "command": "npm run build"
-    },
-    {
-      "id": "V3",
-      "description": "Rule 7: no hex colors or neutral-* classes in components. Pending lint rule (REQ-003)"
-    },
-    {
-      "id": "V4",
-      "description": "Acceptance AC-002.1 and AC-002.2: unit and integration checks pass after T005. Pending recipes (T003)"
-    }
+    { "id": "V1", "description": "Typecheck (AC-001.1, AC-002.2)", "command": "npx tsc --noEmit" },
+    { "id": "V2", "description": "Production build (AC-001.1)", "command": "npm run build" },
+    { "id": "V3", "description": "Unit suite with junit report (AC-002.1, AC-003.1-3, AC-004.1)", "command": "npx vitest run --reporter=junit --outputFile=reports/unit.xml" },
+    { "id": "V4", "description": "Lint with junit report", "command": "npx eslint . -f junit -o reports/lint.xml" },
+    { "id": "V5", "description": "Integration against preview (AC-001.2-3, AC-003.1); needs BASE_URL from preview url", "command": "npx playwright test tests/integration --reporter=junit" },
+    { "id": "V6", "description": "E2E in chromium against preview (AC-003.4, AC-004.2-3)", "command": "npx playwright test tests/e2e --reporter=junit" }
   ],
-  "nextAction": "Human decision required: answer Q1, Q2 and Q4 in requirements.md, then rerun the plan stage. No implementation task may start before T001."
+  "nextAction": "Implement: start T001, then T002 (recipe publish) before any check runs; tests before code in T003/T004/T006."
 }
