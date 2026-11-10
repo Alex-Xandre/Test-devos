@@ -1,0 +1,52 @@
+[
+  {
+    "ops": [],
+    "label": "index.html",
+    "route": "/canvas/index.html",
+    "canvas": {
+      "page": "index.html",
+      "bytes": 3525,
+      "sha256": "c6810085325f5d089f0839a2a520dc187869b22c6a70dd8aedcf1b4ca263a2f2"
+    }
+  },
+  {
+    "ops": [],
+    "label": "home.html",
+    "route": "/canvas/home.html",
+    "canvas": {
+      "page": "home.html",
+      "bytes": 1493,
+      "sha256": "3383c0f0791535e3e0c1a76a92afbabaeffc3fde644d178804e476aef4a8315a"
+    }
+  },
+  {
+    "ops": [],
+    "label": "not-found.html",
+    "route": "/canvas/not-found.html",
+    "canvas": {
+      "page": "not-found.html",
+      "bytes": 1734,
+      "sha256": "02d67ebb043b1def098b6ffe942914a4b76bcfefec4128e719b440a72dd9c856"
+    }
+  },
+  {
+    "ops": [],
+    "label": "testimonials-alt.html",
+    "route": "/canvas/testimonials-alt.html",
+    "canvas": {
+      "page": "testimonials-alt.html",
+      "bytes": 3077,
+      "sha256": "85f018606687130f5e91b4391c56b5638807e1c1f9f590bf0a4b01786b7ebed0"
+    }
+  },
+  {
+    "ops": [],
+    "label": "testimonials-empty.html",
+    "route": "/canvas/testimonials-empty.html",
+    "canvas": {
+      "page": "testimonials-empty.html",
+      "bytes": 1328,
+      "sha256": "3f572adeb12e348b7cd08c6c0e61576c6eec1d2b572e0d3997d98849f21aaef4"
+    }
+  }
+]
