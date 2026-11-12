@@ -1,8 +1,9 @@
 {
   "schemaVersion": 1,
   "branch": "spec/004-show-description",
-  "attemptId": "ss_spec_004-show-description_1794272833602_4",
+  "attemptId": "ss_spec_004-show-description_1794462408009_1",
   "loop": 1,
+  "history": "Authored by attempt ss_spec_004-show-description_1794272833602_4 (loop 1, no children started); re-verified and adopted unchanged by attempt ss_spec_004-show-description_1794462408009_1 (loop 1).",
   "source": "task-plan.json (sha256 b2674ad7…); requirements.md (ee5d64b1…); plan.md (3a41e262…); design.md round 1 (approved; direction A, slug shown, no shell button, no footer, appbar h-14 / scroll mt-14)",
   "recipe": {
     "note": "No devos.env.yaml exists on the branch. The scaffold package authors it; its shape was validated against the backend with `recipe --validate` before planning (component `web` with command/port/health; checks unit, lint, typecheck, build (target none), integration, e2e (target http, component web, env BASE_URL: ${preview:url}, junit-xml reports under reports/)). The orchestrator runs `recipe publish` after applying the scaffold result and before any check child starts."
