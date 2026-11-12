@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "status": "needs_input",
+  "goal": "Conclude the 'Nothing just for agent test' request: keep terminal-portfolio unchanged, deliver consistent planning artifacts, and obtain the person's decision on how the pipeline ends given that pinned required checks (unit, lint, integration, e2e) cannot exist on a harness-only repository.",
+  "scope": {
+    "in": [
+      "Planning artifacts under specs/spec/005-agent-tab-new/ in the hub repository",
+      "A single human decision (Q-001) on the outcome of the agent test",
+      "Sketch of the minimal verifiable scaffold (Option B) with concrete check contracts, executed only if Q-001 = B"
+    ],
+    "out": [
+      "Any change to terminal-portfolio (code, AGENTS.md, README.md, prompt, devos.env.yaml) unless Q-001 = B",
+      "Visual design work (the harness fixes every visual decision)",
+      "Choosing identity data or a palette on the person's behalf"
+    ]
+  },
+  "codebaseEvidence": [
+    { "path": "terminal-portfolio/AGENTS.md:9-18", "reason": "Repository is a design harness; rules bind any future code; 'most bugs in this codebase are additions'" },
+    { "path": "terminal-portfolio/AGENTS.md:304-342", "reason": "Consistency invariants (tsc --noEmit, npm run build) and generation recipe steps 1-9 that Option B would follow" },
+    { "path": "terminal-portfolio/README.md:21-24", "reason": "'Status: harness-first' - no reference implementation exists, so no runnable app or tests" },
+    { "path": "terminal-portfolio/prompt:1-28", "reason": "Sample generation prompt for a hypothetical user; not a bound input (assumption A-2)" },
+    { "path": "terminal-portfolio/CLAUDE-import.md:1", "reason": "Imports AGENTS.md; confirms no other instruction source" }
+  ],
+  "decisions": [
+    { "id": "D-1", "summary": "Build nothing; terminal-portfolio stays unchanged (R-001).", "evidence": ["request text 'Nothing just for agent test'", "specs/spec/005-agent-tab-new/research.md#1"] },
+    { "id": "D-2", "summary": "Return needs_human instead of routing to implement/design: pinned gates require unit/lint/integration/e2e and the repository cannot declare them inapplicable (static-gate.sh only honours committed inapplicability for checks the pipeline pins as not required).", "evidence": ["devos gates (pinned graph) output", "specs/spec/005-agent-tab-new/research.md#2"] },
+    { "id": "D-3", "summary": "Design not required: no UI behaviour requested; AGENTS.md pre-decides all visuals.", "evidence": ["specs/spec/005-agent-tab-new/research.md#4"] },
+    { "id": "D-4", "summary": "Option B scaffold is sketched with check contracts but gated on Q-001 and on identity inputs absent from the request.", "evidence": ["terminal-portfolio/AGENTS.md:318-342", "specs/spec/005-agent-tab-new/plan.md#planned-check-contracts-and-ownership"] }
+  ],
+  "openQuestions": [
+    {
+      "id": "Q-001",
+      "question": "How should this agent test conclude? A (recommended): end the run here with the planning artifacts as the deliverable and no branch on terminal-portfolio. B: re-request as a real feature 'minimal verifiable reference app' supplying identity data (name, handle, role, email, socials, palette); tasks T-B01..T-B05 then apply. C: a platform owner re-pins the pipeline so unit/lint/integration/e2e are not required for this test (the repository cannot do this itself).",
+      "blocking": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": "T-000",
+      "title": "[human] Decide Q-001 (outcome of the agent test)",
+      "description": "A factory_member reads requirements.md Q-001 and records A, B or C. This is the only human item: it is an explicitly personal decision that cannot be automated. It is not an implementation task. Requirement: R-003. Acceptance: AC-003.",
+      "paths": ["specs/spec/005-agent-tab-new/requirements.md", "specs/spec/005-agent-tab-new/task-plan.json"],
+      "dependsOn": [],
+      "acceptanceCriteria": ["AC-003: Q-001 answered and recorded in task-plan.json openQuestions by a factory_member"]
+    },
+    {
+      "id": "T-001",
+      "title": "Prove the no-change outcome (Option A close-out)",
+      "description": "Owner: plan step (this attempt). Tests first: none to write - this is a target-free CLI proof. Run V-001 (git diff --stat main...spec/005-agent-tab-new in terminal-portfolio must print nothing) and V-002 (task-plan.json parses, schemaVersion 1, acyclic dependsOn, every cited AC/R ID exists in requirements.md). Expected before this step's artifacts existed: V-002 fails (files absent). Expected now: both pass. Proof: command output recorded in this step's evidence; the platform's own record that terminal-portfolio received no branch. Requirements: R-001, R-002. Applies when Q-001 = A (and is also the baseline state for B and C).",
+      "paths": ["specs/spec/005-agent-tab-new/plan.md", "specs/spec/005-agent-tab-new/research.md", "specs/spec/005-agent-tab-new/requirements.md", "specs/spec/005-agent-tab-new/task-plan.json"],
+      "dependsOn": [],
+      "acceptanceCriteria": ["AC-001: terminal-portfolio diff against main is empty", "AC-002: four artifacts exist and task-plan.json is valid and consistent with requirements.md"]
+    },
+    {
+      "id": "T-B01",
+      "title": "[Option B only] Establish toolchain and publish devos.env.yaml for terminal-portfolio",
+      "description": "Owner: implement. Precondition: Q-001 = B and identity data supplied in a re-specified feature. Create package.json (Next.js App Router, Tailwind v4, TypeScript, vitest, eslint, @playwright/test), scripts (dev, build, start, lint, typecheck, test:unit, test:integration, test:e2e), and terminal-portfolio/devos.env.yaml declaring component web (next start, port from recipe) and checks unit/lint/typecheck/build/integration/e2e exactly as tabled in plan.md (junit-xml reports under ${run:evidence}, vitest/playwright collection commands, data.isolation shared, no services, prepare none). Publish with `recipe publish` before any check executes; retain capability refusals verbatim. Infrastructure (Node, Chromium via playwright install) must be proven available before T-B03/T-B04 author tests. Requirement: R-003 (Option B branch). Expected red before this task: every gate 'unavailable'.",
+      "paths": ["terminal-portfolio/package.json", "terminal-portfolio/devos.env.yaml", "terminal-portfolio/playwright.config.ts", "terminal-portfolio/vitest.config.ts"],
+      "dependsOn": ["T-000"],
+      "acceptanceCriteria": ["R-003/Option B: `recipe publish` succeeds in terminal-portfolio and `devos gates` no longer reports unit/lint/integration/e2e as unavailable"]
+    },
+    {
+      "id": "T-B02",
+      "title": "[Option B only] Scaffold generation-recipe steps 1-3 (tokens, layout, site constants)",
+      "description": "Owner: implement. Tests first (T-B03 unit specs for src/lib/site.ts and the list-date helper must be red: module not found). Then author src/app/globals.css with the chosen palette token block and utilities (scanlines, reduced-motion block, square scrollbars), src/app/layout.tsx (Plex fonts via next/font, <html lang class=\"dark\">, themeColor = --background, scanlines behind content), src/lib/site.ts (SHELL, SITE_URL, EMAIL, CALENDLY, socials). Obey AGENTS.md rules 1-10 (one accent, no rounded-*, every colour from a token). Proof: unit check green, tsc --noEmit and next build pass.",
+      "paths": ["terminal-portfolio/src/app/globals.css", "terminal-portfolio/src/app/layout.tsx", "terminal-portfolio/src/lib/site.ts"],
+      "dependsOn": ["T-B01", "T-B03"],
+      "acceptanceCriteria": ["R-003/Option B: unit, typecheck and build checks report pass with junit/command receipts"]
+    },
+    {
+      "id": "T-B03",
+      "title": "[Option B only] Author unit tests first (vitest)",
+      "description": "Owner: implement (no separate test author supplied). Write tests/unit/site.test.ts (SHELL equals `${handle}@sh:~`, SITE_URL well-formed) and tests/unit/list-date.test.ts (formats a Date as `${year}-${month}` with zero-padded month and never contains 'undefined' or 'GMT'). Expected red: 'Cannot find module ../../src/lib/site'. Publish the unit check contract in T-B01 before first execution. Report: junit-xml via vitest reporter; collection via `vitest list --json`.",
+      "paths": ["terminal-portfolio/tests/unit/site.test.ts", "terminal-portfolio/tests/unit/list-date.test.ts"],
+      "dependsOn": ["T-B01"],
+      "acceptanceCriteria": ["R-003/Option B: unit suite exists, is collected by vitest, and is red before T-B02 and green after"]
+    },
+    {
+      "id": "T-B04",
+      "title": "[Option B only] Author integration and e2e journeys first (vitest over next start; Playwright)",
+      "description": "Owner: implement. Integration (real seam, no mocks of the app): tests/integration/home.test.ts fetches ${component:web.url}/ and asserts HTTP 200, `<html lang=\"en\" class=\"dark\"`, and the command header text 'whoami --verbose'. E2E (deployed preview via `preview up`, real browser, no third-party stand-ins - the ticker's GitHub fetch renders only on success so no stub is needed): tests/e2e/home.spec.ts asserts keyboard '/' opens the shell panel, Tab focus ring visible on the primary CTA, prefers-reduced-motion emulation renders the hero instantly, and captures viewport screenshots at 375x812 and 1024x768 uploaded with `evidence upload`. Expected red: connection refused / 404 before T-B05. Reports junit-xml; collection `playwright test --list --reporter=json`. Test comment must name the check's dependency on the running web component (shared isolation, no data).",
+      "paths": ["terminal-portfolio/tests/integration/home.test.ts", "terminal-portfolio/tests/e2e/home.spec.ts"],
+      "dependsOn": ["T-B01"],
+      "acceptanceCriteria": ["R-003/Option B: integration and e2e suites exist, are collected, red before T-B05, green after, with screenshots uploaded as evidence"]
+    },
+    {
+      "id": "T-B05",
+      "title": "[Option B only] Scaffold generation-recipe steps 4-5 (Appbar + Ticker, Hero) and run consistency invariants",
+      "description": "Owner: implement. Author src/components/appbar.tsx (status dot, {handle}, lowercase nav, burger below lg, Ticker last child), src/components/ticker.tsx (aria-hidden, content twice, pause on hover, live entries only on successful fetch), src/components/hero.tsx (typed 'whoami --verbose' from empty string in useEffect, reduced-motion instant, primary CTA + secondary 'ls projects/'), src/app/page.tsx. Then run the AGENTS.md invariants: git grep 'neutral-' empty, npx tsc --noEmit, npm run build. Proof: integration and e2e checks green; lint green.",
+      "paths": ["terminal-portfolio/src/components/appbar.tsx", "terminal-portfolio/src/components/ticker.tsx", "terminal-portfolio/src/components/hero.tsx", "terminal-portfolio/src/app/page.tsx"],
+      "dependsOn": ["T-B02", "T-B04"],
+      "acceptanceCriteria": ["R-003/Option B: integration, e2e and lint checks report pass; `git grep -n neutral-` prints nothing"]
+    }
+  ],
+  "routing": {
+    "designRequired": false,
+    "reason": "The request has no UI behaviour; AGENTS.md already fixes every visual decision (tokens, pattern language, accessibility floor), so a design step would have nothing to decide even under Option B. This step returns needs_human on Q-001 rather than routing."
+  },
+  "validation": [
+    { "id": "V-001", "description": "terminal-portfolio is unchanged relative to main (AC-001)", "command": "git -C /workspace/terminal-portfolio diff --stat main...HEAD" },
+    { "id": "V-002", "description": "task-plan.json is valid schemaVersion 1 JSON with an acyclic dependsOn graph and every cited AC/R ID present in requirements.md (AC-002)", "command": "python3 -I -c 'import json,re; P=\"/workspace/.hub/specs/spec/005-agent-tab-new/\"; p=json.load(open(P+\"task-plan.json\")); assert p[\"schemaVersion\"]==1; dep={t[\"id\"]:set(t[\"dependsOn\"]) for t in p[\"tasks\"]}; assert all(d in dep for ds in dep.values() for d in ds), \"unknown dependsOn\"; rem=dict(dep); [rem.pop(k) for _ in range(len(dep)) for k in list(rem) if not rem[k] & set(rem)]; assert not rem, (\"cycle\", sorted(rem)); req=open(P+\"requirements.md\").read(); cited={m for t in p[\"tasks\"] for a in t[\"acceptanceCriteria\"] for m in re.findall(r\"\\b(?:AC|R)-\\d{3}\\b\", a)}; missing=sorted(c for c in cited if c not in req); assert not missing, missing; print(\"ok\", sorted(cited))'" }
+  ],
+  "nextAction": "A factory_member answers Q-001 (recommended: A - end the run; the planning artifacts are the test's deliverable and terminal-portfolio receives no branch). If B, re-request the feature with identity data so T-B01..T-B05 can be implemented test-first; if C, a platform owner re-pins the required checks."
+}
