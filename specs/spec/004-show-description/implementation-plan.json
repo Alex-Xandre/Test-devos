@@ -56,7 +56,9 @@
         "typecheck",
         "build"
       ],
-      "instructions": "specs/spec/004-show-description/packages/scaffold.md"
+      "instructions": "specs/spec/004-show-description/packages/scaffold.md",
+      "checksBound": [],
+      "checksNote": "Started with no platform checks: the step refused --check (check_undeclared: no repository declares 'unit') and --command (command_not_allowed for role worker) because devos.env.yaml does not exist before this package authors it. The worker proves unit/lint/typecheck/build locally per its instructions; after the recipe is applied and published, later packages bind the declared checks and the integration/e2e children judge the candidate."
     },
     {
       "key": "testimonials",
@@ -128,5 +130,13 @@
     "integration",
     "e2e"
   ],
-  "humanTasks": []
+  "humanTasks": [],
+  "children": [
+    {
+      "key": "scaffold",
+      "runId": "2f8cae8d-7ebc-4449-af11-cc7e942080c0",
+      "input": "00ac38a7fe5d",
+      "attemptId": "ss_spec_004-show-description_1795154767955_0"
+    }
+  ]
 }
