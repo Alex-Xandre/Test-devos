@@ -136,7 +136,13 @@
       "key": "scaffold",
       "runId": "2f8cae8d-7ebc-4449-af11-cc7e942080c0",
       "input": "00ac38a7fe5d",
-      "attemptId": "ss_spec_004-show-description_1795154767955_0"
+      "attemptId": "ss_spec_004-show-description_1795154767955_0",
+      "outcome": "start_failed → needs_human",
+      "detail": "pod entrypoint: pinned commit 00ac38a7fe5d8c90d03d946b82d5535962f8c388 is not available from https://github.com/Alex-Xandre/terminal-portfolio — refusing to run on a different commit"
     }
-  ]
+  ],
+  "blocker": {
+    "attemptId": "ss_spec_004-show-description_1795154767955_0",
+    "summary": "The step's recorded head for mount terminal-portfolio (contract.producer.heads/inputHeads sha 00ac38a7fe5d, inputRef main) exists in no repository: GitHub main is 32190a991ff (= refs/devos/mount-base) and the remote has no spec/004-show-description branch; the hub remote does not contain it either. Every child pinned to head (worker 2f8cae8d; auto preview 9d00e963, and earlier attempts' previews 970bd3cd, 6d6afd83) fails before running. devos runs start --input 32190a991ff was refused (no_input: only head, results or joins). Needs a platform/person repair of the recorded terminal-portfolio head; the partition plan and package instructions are ready to start unchanged."
+  }
 }
